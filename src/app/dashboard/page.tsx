@@ -15,6 +15,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Field, FieldGroup } from "@/components/ui/field";
 
+export type Task = {
+  id: number;
+  title: string;
+  description: string;
+  completed: boolean;
+};
+
 export default function Dashboard() {
   return (
     <div className="min-h-screen flex bg-gray-50">
