@@ -30,6 +30,7 @@ export default function Dashboard() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [open, setOpen] = useState(false);
 
   // function to add a task
   function handleAddTask() {
@@ -46,6 +47,8 @@ export default function Dashboard() {
 
     setTitle("");
     setDescription("");
+
+    setOpen(false);
   }
   // a function to handle to remove a task from array of tasks
   function handleDeleteTask(id: number) {
@@ -77,9 +80,9 @@ export default function Dashboard() {
             <p className="text-sm text-gray-500">Manage your daily tasks</p>
           </div>
 
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button>+ Add Task</Button>
+              <Button onClick={() => setOpen(true)}>+ Add Task</Button>
             </DialogTrigger>
 
             <DialogContent>
