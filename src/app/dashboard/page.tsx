@@ -63,6 +63,15 @@ export default function Dashboard() {
       ),
     );
   }
+
+  // function to handle editing a task
+  function handleEditTask(id: number, title: string, description: string) {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, title, description } : task,
+      ),
+    );
+  }
   return (
     <div className="min-h-screen flex bg-gray-50">
       <aside className="w-64 h-full px-3 py-4 bg-neutral-primary-soft border-e border-default">
@@ -93,7 +102,7 @@ export default function Dashboard() {
 
               <div className="space-y-6 py-4">
                 <FieldGroup>
-                  <label htmlFor="title">Title</label>
+                  <Label htmlFor="title">Title</Label>
                   <Input
                     id="title"
                     placeholder="Enter task title"
@@ -103,7 +112,7 @@ export default function Dashboard() {
                 </FieldGroup>
 
                 <FieldGroup>
-                  <label htmlFor="description">Description</label>
+                  <Label htmlFor="description">Description</Label>
                   <Textarea
                     id="description"
                     placeholder="Enter task description"
@@ -139,6 +148,7 @@ export default function Dashboard() {
                   task={task}
                   onDelete={handleDeleteTask}
                   onToggle={handleToggleTask}
+                  onEdit={handleEditTask}
                 />
               ))}
             </div>
