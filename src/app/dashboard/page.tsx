@@ -41,7 +41,12 @@ const initialTasks: Task[] = [
 ];
 
 export default function Dashboard() {
-  const [tasks, settasks] = useState<Task[]>(initialTasks);
+  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+
+  // a function to handle to remove a task from array of tasks
+  function handleDeleteTask(id: number) {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+  }
   return (
     <div className="min-h-screen flex bg-gray-50">
       <aside className="w-64 h-full px-3 py-4 bg-neutral-primary-soft border-e border-default">
@@ -103,7 +108,11 @@ export default function Dashboard() {
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg-grid-cols-3">
               {tasks.map((task) => (
-                <TaskCard key={task.id} task={task} />
+                <TaskCard
+                  key={task.id}
+                  task={task}
+                  onDelete={handleDeleteTask}
+                />
               ))}
             </div>
           )}

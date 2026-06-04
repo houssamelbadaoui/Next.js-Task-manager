@@ -13,9 +13,10 @@ type Task = {
 
 type TaskCardProps = {
   task: Task;
+  onDelete: (id: number) => void;
 };
 
-export default function TaskCard({ task }: TaskCardProps) {
+export default function TaskCard({ task, onDelete }: TaskCardProps) {
   return (
     <Card className="w-full max-w-md shadow-sm hover:shadow-md transition">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -39,7 +40,11 @@ export default function TaskCard({ task }: TaskCardProps) {
           <Button variant="outline" size="sm">
             Edit
           </Button>
-          <Button variant="destructive" size="sm">
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => onDelete(task.id)}
+          >
             Delete
           </Button>
 
