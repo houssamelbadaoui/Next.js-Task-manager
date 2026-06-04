@@ -31,6 +31,7 @@ export default function Dashboard() {
   const [description, setDescription] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
   const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useState("all");
 
   // function to add a task
   function handleAddTask() {
@@ -72,15 +73,43 @@ export default function Dashboard() {
       ),
     );
   }
+
+  // function to filter tasks
+  const filterTasks = tasks.filter((task) => {
+    if (filter === "completed") {
+      return task.completed;
+    }
+    if (filter === "pending") {
+      return !task.completed;
+    }
+    return true;
+  });
   return (
     <div className="min-h-screen flex bg-gray-50">
       <aside className="w-64 h-full px-3 py-4 bg-neutral-primary-soft border-e border-default">
         <h2 className="text-2xl font-bold mb-4 text-center">Task Manager</h2>
-        <ul className="space-y-2 font-medium">
-          <li className="text-center mb-4">All tasks</li>
-          <li className="text-center mb-4">Completed</li>
-          <li className="text-center mb-4">Pending</li>
-        </ul>
+        <div className=" flex flex-col space-y-2 font-medium">
+          <Button
+            variant={filter === "all" ? "default" : "ghost"}
+            onClick={() => setFilter("all")}
+          >
+            All Tasks
+          </Button>
+
+          <Button
+            variant={filter === "completed" ? "default" : "ghost"}
+            onClick={() => setFilter("completed")}
+          >
+            Completed
+          </Button>
+
+          <Button
+            variant={filter === "pending" ? "default" : "ghost"}
+            onClick={() => setFilter("pending")}
+          >
+            Pending
+          </Button>
+        </div>
       </aside>
       <main className="flex-1 flex flex-col">
         <header className="flex items-center justify-between w-full px-6 py-4 border-b bg-white">
@@ -138,11 +167,11 @@ export default function Dashboard() {
           </Dialog>
         </header>
         <section className="p-6">
-          {tasks.length === 0 ? (
+          {filterTasks.length === 0 ? (
             <p className="text-gray-500">No tasks yet</p>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {tasks.map((task) => (
+              {filterTasks.map((task) => (
                 <TaskCard
                   key={task.id}
                   task={task}
