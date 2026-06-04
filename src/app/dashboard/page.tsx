@@ -47,6 +47,15 @@ export default function Dashboard() {
   function handleDeleteTask(id: number) {
     setTasks((prev) => prev.filter((task) => task.id !== id));
   }
+
+  // function to toggle a task
+  function handleToggleTask(id: number) {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task,
+      ),
+    );
+  }
   return (
     <div className="min-h-screen flex bg-gray-50">
       <aside className="w-64 h-full px-3 py-4 bg-neutral-primary-soft border-e border-default">
@@ -112,6 +121,7 @@ export default function Dashboard() {
                   key={task.id}
                   task={task}
                   onDelete={handleDeleteTask}
+                  onToggle={handleToggleTask}
                 />
               ))}
             </div>

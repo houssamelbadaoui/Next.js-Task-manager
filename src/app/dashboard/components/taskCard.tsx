@@ -14,9 +14,10 @@ type Task = {
 type TaskCardProps = {
   task: Task;
   onDelete: (id: number) => void;
+  onToggle: (id: number) => void;
 };
 
-export default function TaskCard({ task, onDelete }: TaskCardProps) {
+export default function TaskCard({ task, onDelete, onToggle }: TaskCardProps) {
   return (
     <Card className="w-full max-w-md shadow-sm hover:shadow-md transition">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -48,7 +49,9 @@ export default function TaskCard({ task, onDelete }: TaskCardProps) {
             Delete
           </Button>
 
-          <Button size="sm">Toggle</Button>
+          <Button variant="outline" size="sm" onClick={() => onToggle(task.id)}>
+            {task.completed ? "Mark Pending" : "Mark Done"}
+          </Button>
         </div>
       </CardContent>
     </Card>
