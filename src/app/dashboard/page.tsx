@@ -1,3 +1,7 @@
+"use client";
+import { useState } from "react";
+import TaskCard from "./components/taskCard";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,14 +19,29 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Field, FieldGroup } from "@/components/ui/field";
 
-export type Task = {
+type Task = {
   id: number;
   title: string;
   description: string;
   completed: boolean;
 };
+const initialTasks: Task[] = [
+  {
+    id: 1,
+    title: "Learn Next.js",
+    description: "Understand routing and components",
+    completed: false,
+  },
+  {
+    id: 2,
+    title: "Build Task Manager",
+    description: "Finish CRUD functionality",
+    completed: true,
+  },
+];
 
 export default function Dashboard() {
+  const [tasks, settasks] = useState<Task[]>(initialTasks);
   return (
     <div className="min-h-screen flex bg-gray-50">
       <aside className="w-64 h-full px-3 py-4 bg-neutral-primary-soft border-e border-default">
@@ -78,7 +97,17 @@ export default function Dashboard() {
             </DialogContent>
           </Dialog>
         </header>
-        <section className="p-6"></section>
+        <section className="p-6">
+          {tasks.length === 0 ? (
+            <p className="text-gray-500">No tasks yet</p>
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2 lg-grid-cols-3">
+              {tasks.map((task) => (
+                <TaskCard key={task.id} task={task} />
+              ))}
+            </div>
+          )}
+        </section>
       </main>
     </div>
   );
