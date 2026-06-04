@@ -25,24 +25,28 @@ type Task = {
   description: string;
   completed: boolean;
 };
-const initialTasks: Task[] = [
-  {
-    id: 1,
-    title: "Learn Next.js",
-    description: "Understand routing and components",
-    completed: false,
-  },
-  {
-    id: 2,
-    title: "Build Task Manager",
-    description: "Finish CRUD functionality",
-    completed: true,
-  },
-];
 
 export default function Dashboard() {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [tasks, setTasks] = useState<Task[]>([]);
 
+  // function to add a task
+  function handleAddTask() {
+    if (title.trim() === "" || description.trim() === "") return;
+
+    const newTask = {
+      id: Date.now(),
+      title: title,
+      description: description,
+      completed: false,
+    };
+
+    setTasks((prev) => [...prev, newTask]);
+
+    setTitle("");
+    setDescription("");
+  }
   // a function to handle to remove a task from array of tasks
   function handleDeleteTask(id: number) {
     setTasks((prev) => prev.filter((task) => task.id !== id));
@@ -87,14 +91,21 @@ export default function Dashboard() {
               <div className="space-y-6 py-4">
                 <FieldGroup>
                   <label htmlFor="title">Title</label>
-                  <Input id="title" placeholder="Enter task title" />
+                  <Input
+                    id="title"
+                    placeholder="Enter task title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
                 </FieldGroup>
 
                 <FieldGroup>
                   <label htmlFor="description">Description</label>
-                  <Input
+                  <Textarea
                     id="description"
                     placeholder="Enter task description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                   />
                 </FieldGroup>
               </div>
@@ -104,7 +115,10 @@ export default function Dashboard() {
                   <Button variant="outline">Cancel</Button>
                 </DialogClose>
 
-                <Button className="bg-indigo-600 hover:bg-indigo-700">
+                <Button
+                  className="bg-indigo-600 hover:bg-indigo-700"
+                  onClick={handleAddTask}
+                >
                   Add Task
                 </Button>
               </DialogFooter>
@@ -115,7 +129,7 @@ export default function Dashboard() {
           {tasks.length === 0 ? (
             <p className="text-gray-500">No tasks yet</p>
           ) : (
-            <div className="grid gap-4 md:grid-cols-2 lg-grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {tasks.map((task) => (
                 <TaskCard
                   key={task.id}
