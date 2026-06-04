@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+
 export default function Home() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-grandient-to-br from-white via-gray-50 to-indigo-100">
@@ -11,9 +14,11 @@ export default function Home() {
           stress. Turn your goals into clear actions and track your progress
           effortlessly.
         </p>
-        <button className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition duration-200 shadow-md hover:shadow-lg">
-          Go to Dashboard
-        </button>
+        <Link href="/dashboard">
+          <Button className="bg-indigo-600 font-medium px-6 py-3 hover:bg-indigo-700 ">
+            Go to Dashboard
+          </Button>
+        </Link>
       </div>
     </main>
   );
