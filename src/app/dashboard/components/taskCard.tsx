@@ -30,17 +30,9 @@ type Task = {
 
 type TaskCardProps = {
   task: Task;
-  onDelete: (id: number) => void;
-  onToggle: (id: number) => void;
-  onEdit: (id: number, title: string, description: string) => void;
 };
 
-export default function TaskCard({
-  task,
-  onDelete,
-  onToggle,
-  onEdit,
-}: TaskCardProps) {
+export default function TaskCard({ task }: TaskCardProps) {
   const [editTitle, setEditTitle] = useState(task.title);
   const [editDescription, setEditDescription] = useState(task.description);
   const [open, setOpen] = useState(false);
@@ -107,7 +99,6 @@ export default function TaskCard({
                 <Button
                   className="bg-indigo-600 hover:bg-indigo-700"
                   onClick={() => {
-                    onEdit(task.id, editTitle, editDescription);
                     setOpen(false);
                   }}
                 >
@@ -117,15 +108,11 @@ export default function TaskCard({
             </DialogContent>
           </Dialog>
 
-          <Button
-            variant="destructive"
-            size="sm"
-            onClick={() => onDelete(task.id)}
-          >
+          <Button variant="destructive" size="sm">
             Delete
           </Button>
 
-          <Button variant="outline" size="sm" onClick={() => onToggle(task.id)}>
+          <Button variant="outline" size="sm">
             {task.completed ? "Mark Pending" : "Mark Done"}
           </Button>
         </div>
