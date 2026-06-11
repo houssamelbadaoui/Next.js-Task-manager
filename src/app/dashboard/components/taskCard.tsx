@@ -31,10 +31,16 @@ type Task = {
 type TaskCardProps = {
   task: Task;
   onDelete: (id: number) => void;
-  onUpdate: (id: number, title: string, description: string) => void;
+  onUpdate: (id: number, title: string, description: string) => Promise<void>;
+  onToggle: (id: number, completed: boolean) => Promise<void>;
 };
 
-export default function TaskCard({ task, onDelete, onUpdate }: TaskCardProps) {
+export default function TaskCard({
+  task,
+  onDelete,
+  onUpdate,
+  onToggle,
+}: TaskCardProps) {
   const [editTitle, setEditTitle] = useState(task.title);
   const [editDescription, setEditDescription] = useState(task.description);
   const [open, setOpen] = useState(false);
@@ -121,7 +127,11 @@ export default function TaskCard({ task, onDelete, onUpdate }: TaskCardProps) {
             Delete
           </Button>
 
-          <Button variant="outline" size="sm">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onToggle(task.id, !task.completed)}
+          >
             {task.completed ? "Mark Pending" : "Mark Done"}
           </Button>
         </div>

@@ -58,3 +58,17 @@ export async function updateTask(
     connection.end();
   }
 }
+
+export async function toggleTaskStatus(id: number, completed: boolean) {
+  const connection = await openConnection();
+
+  try {
+    const statusValue = completed ? 1 : 0;
+    connection.execute("UPDATE task set completed = ? WHERE id = ?", [
+      statusValue,
+      id,
+    ]);
+  } finally {
+    connection.end();
+  }
+}

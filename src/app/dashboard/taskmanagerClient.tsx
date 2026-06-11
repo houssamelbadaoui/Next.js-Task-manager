@@ -37,12 +37,14 @@ type Props = {
     title: string,
     description: string,
   ) => Promise<void>;
+  onToggleTask: (id: number, completed: boolean) => Promise<void>;
 };
 export default function TaskManagerClient({
   initialTasks,
   onAddTask,
   onDeleteTask,
   onUpdateTask,
+  onToggleTask,
 }: Props) {
   // States
   const [filter, setFilter] = useState<"all" | "completed" | "pending">("all");
@@ -152,6 +154,7 @@ export default function TaskManagerClient({
                   task={task}
                   onDelete={onDeleteTask}
                   onUpdate={onUpdateTask}
+                  onToggle={onToggleTask}
                 />
               ))}
             </div>
