@@ -32,3 +32,12 @@ export async function saveTask(title: string, description: string) {
     connection.end();
   }
 }
+
+export async function deleteTask(id: number) {
+  const connection = await openConnection();
+  try {
+    connection.execute("DELETE FROM task WHERE id = ?", [id]);
+  } finally {
+    await connection.end();
+  }
+}

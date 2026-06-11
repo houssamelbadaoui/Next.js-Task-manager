@@ -30,9 +30,10 @@ type Task = {
 
 type TaskCardProps = {
   task: Task;
+  onDelete: (id: number) => void;
 };
 
-export default function TaskCard({ task }: TaskCardProps) {
+export default function TaskCard({ task, onDelete }: TaskCardProps) {
   const [editTitle, setEditTitle] = useState(task.title);
   const [editDescription, setEditDescription] = useState(task.description);
   const [open, setOpen] = useState(false);
@@ -108,7 +109,11 @@ export default function TaskCard({ task }: TaskCardProps) {
             </DialogContent>
           </Dialog>
 
-          <Button variant="destructive" size="sm">
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => onDelete(task.id)}
+          >
             Delete
           </Button>
 
