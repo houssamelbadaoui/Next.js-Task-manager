@@ -31,12 +31,18 @@ type Task = {
 type TaskCardProps = {
   task: Task;
   onDelete: (id: number) => void;
+  onUpdate: (id: number, title: string, description: string) => void;
 };
 
-export default function TaskCard({ task, onDelete }: TaskCardProps) {
+export default function TaskCard({ task, onDelete, onUpdate }: TaskCardProps) {
   const [editTitle, setEditTitle] = useState(task.title);
   const [editDescription, setEditDescription] = useState(task.description);
   const [open, setOpen] = useState(false);
+
+  function update() {
+    onUpdate(task.id, editTitle, editDescription);
+    setOpen(false);
+  }
 
   return (
     <Card className="w-full max-w-md shadow-sm hover:shadow-md transition">
@@ -99,9 +105,7 @@ export default function TaskCard({ task, onDelete }: TaskCardProps) {
                 </DialogClose>
                 <Button
                   className="bg-indigo-600 hover:bg-indigo-700"
-                  onClick={() => {
-                    setOpen(false);
-                  }}
+                  onClick={update}
                 >
                   Edit
                 </Button>

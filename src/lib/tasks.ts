@@ -41,3 +41,20 @@ export async function deleteTask(id: number) {
     await connection.end();
   }
 }
+
+export async function updateTask(
+  id: number,
+  title: string,
+  description: string,
+) {
+  const connection = await openConnection();
+
+  try {
+    connection.execute(
+      "UPDATE task SET title = ?, description = ? WHERE id = ?",
+      [title, description, id],
+    );
+  } finally {
+    connection.end();
+  }
+}

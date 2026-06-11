@@ -1,4 +1,4 @@
-import { saveTask, getTasks, deleteTask } from "@/lib/tasks";
+import { saveTask, getTasks, deleteTask, updateTask } from "@/lib/tasks";
 import { revalidatePath } from "next/cache";
 import TaskManagerClient from "./taskmanagerClient";
 
@@ -31,11 +31,24 @@ export default async function Dashboard() {
     revalidatePath("./dashboard");
   }
 
+  // function to handle updating a task
+  async function handleUpdateTask(
+    id: number,
+    title: string,
+    description: string,
+  ) {
+    "use server";
+
+    await updateTask(id, title, description);
+
+    revalidatePath("./dashboard");
+  }
   return (
     <TaskManagerClient
       initialTasks={tasks}
       onAddTask={handleAddTask}
       onDeleteTask={handleDeletetask}
+      onUpdateTask={handleUpdateTask}
     />
   );
 }

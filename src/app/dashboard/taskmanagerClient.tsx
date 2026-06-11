@@ -32,11 +32,17 @@ type Props = {
   initialTasks: Task[];
   onAddTask: (formData: FormData) => Promise<void>;
   onDeleteTask: (id: number) => Promise<void>;
+  onUpdateTask: (
+    id: number,
+    title: string,
+    description: string,
+  ) => Promise<void>;
 };
 export default function TaskManagerClient({
   initialTasks,
   onAddTask,
   onDeleteTask,
+  onUpdateTask,
 }: Props) {
   // States
   const [filter, setFilter] = useState<"all" | "completed" | "pending">("all");
@@ -141,7 +147,12 @@ export default function TaskManagerClient({
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {filteredTasks.map((task) => (
-                <TaskCard key={task.id} task={task} onDelete={onDeleteTask} />
+                <TaskCard
+                  key={task.id}
+                  task={task}
+                  onDelete={onDeleteTask}
+                  onUpdate={onUpdateTask}
+                />
               ))}
             </div>
           )}
