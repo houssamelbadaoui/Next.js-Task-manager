@@ -1,4 +1,4 @@
-import { openConnection } from "./db";
+import prisma from "../../lib/prisma";
 
 type Task = {
   id: number;
@@ -8,38 +8,28 @@ type Task = {
 };
 
 export async function getTasks() {
-  const connection = await openConnection();
-
-  try {
-    const [tasks] = await connection.execute("SELECT * FROM task");
-
-    return tasks as Task[];
-  } finally {
-    await connection.end();
-  }
+  return prisma.task.findMany({
+    orderBy: {
+      id: "desc",
+    },
+  });
 }
 
 export async function saveTask(title: string, description: string) {
-  const connection = await openConnection();
-  try {
-    const completed = false;
-
-    await connection.execute(
-      "INSERT INTO task (title, description, completed) VALUES (?,?,?)",
-      [title, description, completed],
-    );
-  } finally {
-    connection.end();
-  }
+  await prisma.task.create({
+    data: {
+      title,
+      description,
+    },
+  });
 }
 
 export async function deleteTask(id: number) {
-  const connection = await openConnection();
-  try {
-    connection.execute("DELETE FROM task WHERE id = ?", [id]);
-  } finally {
-    await connection.end();
-  }
+  await prisma.task.delete({
+    where: {
+      id: id,
+    },
+  });
 }
 
 export async function updateTask(
@@ -47,28 +37,25 @@ export async function updateTask(
   title: string,
   description: string,
 ) {
-  const connection = await openConnection();
-
-  try {
-    connection.execute(
-      "UPDATE task SET title = ?, description = ? WHERE id = ?",
-      [title, description, id],
-    );
-  } finally {
-    connection.end();
-  }
+  await prisma.task.update({
+    where: {
+      id: id,
+    },
+    data: {
+      title: title,
+      description: description,
+    },
+  });
 }
 
 export async function toggleTaskStatus(id: number, completed: boolean) {
-  const connection = await openConnection();
+  await prisma.task.update({
+    where: {
+      id: id,
+    },
 
-  try {
-    const statusValue = completed ? 1 : 0;
-    connection.execute("UPDATE task set completed = ? WHERE id = ?", [
-      statusValue,
-      id,
-    ]);
-  } finally {
-    connection.end();
-  }
+    data: {
+      completed: completed,
+    },
+  });
 }
